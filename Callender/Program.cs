@@ -11,8 +11,8 @@ namespace Server
         static void Main(string[] args)
         {
             Server server = new Server();
-            server.parseArgv(args);
-            server.run();
+            server.ParseArgv(args);
+            server.Run();
         }
     }
 }

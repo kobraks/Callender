@@ -8,58 +8,20 @@ namespace Server
 {
     class Command : ICloneable
     {
-        Vector2<int> _coords;
-        ConsoleColor _color;
-        string _s;
-
         public Object Clone()
         {
             return this.MemberwiseClone();
         }
 
-        public Command(string command, int x = -1, int y = -1, ConsoleColor color = ConsoleColor.White)
+        public Command(string command, int x = 0, int y = -1, ConsoleColor color = ConsoleColor.White)
         {
-            _coords = new Vector2<int>(x, y);
-            this._color = color;
-            _s = command;
+            Coords = new Vector2<int>(x, y);
+            this.Color = color;
+            Text = command;
         }
 
-        public string command
-        {
-            get
-            {
-                return _s;
-            }
-
-            set
-            {
-                _s = value;
-            }
-        }
-
-        public ConsoleColor color
-        {
-            get
-            {
-                return _color;
-            }
-            set
-            {
-                _color = value;
-            }
-        }
-
-        public Vector2<int> coords
-        {
-            get
-            {
-                return _coords;
-            }
-            set
-            {
-                _coords = value;
-            }
-        }
-
+        public string Text { get; set; }
+        public ConsoleColor Color { get; set; }
+        public Vector2<int> Coords { get; set; }
     }
 }

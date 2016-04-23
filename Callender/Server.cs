@@ -3,32 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Sockets;
+using System.Net;
 
 namespace Server
 {
     class Server
     {
-        private Boolean isRun = true;
+        private Configuration config = new Configuration();
+        private Boolean _isRun = true;
 
         public Server()
         {
+            config.LoadFromFile("config.ini");
         }
 
-        public void parseArgv(string[] args)
+        public void ParseArgv(string[] args)
         {
 
         }
 
-        public void run()
+        public void Run()
         {
-            while(isRun)
+            TcpListener listener = new TcpListener(new IPEndPoint(config.IP, config.Port));
+            listener.Start();
+            while (_isRun)
             {
-                string s= IO.read();
-
-                if (s != null)
-                {
-                    IO.write(s);
-                }
             }
         }
     }
