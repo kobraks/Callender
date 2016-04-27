@@ -7,19 +7,19 @@ using System.Threading;
 
 namespace Server
 {
-    namespace IO
+    partial class IO
     {
         class Output
         {
             #region private members
-            static int y = 0;
-            static readonly Object _locker = new Object();
-            static Queue<Command> _buff = new Queue<Command>();
-            static Thread _thread;
-            static Boolean _isRun = true;
-            static Command _lastedCommand = null;
+             int y = 0;
+             readonly Object _locker = new Object();
+             Queue<Text> _buff = new Queue<Text>();
+             Thread _thread;
+             Boolean _isRun = true;
+             Text _lastedCommand = null;
 
-            static Output()
+             public Output()
             {
                 _thread = new Thread(Exec);
                 _thread.Start();
@@ -29,7 +29,7 @@ namespace Server
             /// This Function returns a bottom of console
             /// </summary>
             /// <returns>A bottom of console</returns>
-            static int Bottom()
+             int Bottom()
             {
                 if (Console.WindowHeight - 1 > y)
                     return Console.WindowHeight - 1;
@@ -41,19 +41,20 @@ namespace Server
             /// This Function clear a current line of console
             /// </summary>
             /// <param name="line">line to clear</param>
-            static void ClearLine(int line)
+             void ClearLine(int line)
             {
                 //Clean a pointed line in console
                 int currentLine = Console.CursorTop;
                 Console.SetCursorPosition(0, line);
-                Console.Write(new string(' ', Console.WindowWidth - 1));
-                Console.SetCursorPosition(0, currentLine);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, 0);
+                Console.SetCursorPosition(0, line);
             }
 
             /// <summary>
             /// Main function where text is write on the console, its working in another thread
             /// </summary>
-            static void Exec()
+             void Exec()
             {
                 while (_isRun)
                 {
@@ -61,17 +62,26 @@ namespace Server
                     {
                         while (_buff.Count == 0) Monitor.Wait(_locker);
 
-                        Command tmp = _buff.Dequeue();
+                        Text tmp = _buff.Dequeue();
 
                         Console.SetCursorPosition(tmp.Coords.x, tmp.Coords.y);
-                        Console.Write(tmp.Text);
+                        Console.Write(tmp.String);
                         Console.ForegroundColor = tmp.Color;
                         Console.ResetColor();
                         try
                         {
-                            Console.SetCursorPosition(_lastedCommand.Text.Length, Bottom());
+                            int x = _lastedCommand.String.Length;
+                            int y = Bottom();
+
+                            for (; x >= Console.BufferWidth;)
+                            {
+                                x -= Console.BufferWidth;
+                                y += 1;
+                            }
+
+                            Console.SetCursorPosition(x, y);
                         }
-                        catch (NullReferenceException ex)
+                        catch (NullReferenceException)
                         {
                             Console.SetCursorPosition(0, y);
                         }
@@ -85,7 +95,7 @@ namespace Server
             /// This method only is used to write command from Input Class
             /// </summary>
             /// <param name="command">Command</param>
-            public static void WriteCommand(Command command)
+            public  void WriteCommand(Text command)
             {
                 try
                 {
@@ -93,27 +103,33 @@ namespace Server
                     {
                         if (_lastedCommand != null)
                         {
-                            if (_lastedCommand.Text.Length > command.Text.Length)
+                            if (_lastedCommand.String.Length > command.String.Length)
                             {
                                 ClearLine(Bottom());
+                                int x = _lastedCommand.String.Length;
+                                for (int i = 0; x >= Console.BufferWidth; i++)
+                                {
+                                    ClearLine(Bottom() + 1);
+                                    x -= Console.BufferWidth;
+                                }
                             }
                         }
 
                         command.Coords.x = 0;
                         command.Coords.y = Bottom();
-                        _lastedCommand = (Command)command.Clone();
+                        _lastedCommand = (Text)command.Clone();
 
-                        _buff.Enqueue(command);
+                        _buff.Enqueue(_lastedCommand);
                         Monitor.Pulse(_locker);
                     }
                 }
-                catch(NullReferenceException ex)
+                catch(NullReferenceException)
                 {
                     return;
                 }
             }
 
-            public static void Write(Command write)
+            public  void Write(Text write)
             {
                 lock(_locker)
                 {
@@ -131,17 +147,17 @@ namespace Server
             /// This method is used to add to buffer some text and then it will be write in console
             /// </summary>
             /// <param name="toWrite">Whats do you want to write in console</param>
-            public static void Write(string toWrite)
+            public  void Write(string toWrite)
             {
                 if (String.IsNullOrEmpty(toWrite)) return;
 
-                Write(new Command(toWrite));
+                Write(new Text(toWrite));
             }
 
             /// <summary>
             /// Clear console window
             /// </summary>
-            public static void Clear()
+            public  void Clear()
             {
                 lock (_locker)
                 {

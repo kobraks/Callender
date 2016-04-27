@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace Server
 {
-    namespace IO
+    partial class IO
     {
         class Input
         {
@@ -21,7 +21,7 @@ namespace Server
             /// Reads form buffer a text wirted in console
             /// </summary>
             /// <returns>Writed text form console, if nothing was write it will return null</returns>
-            public static string Read()
+            public string Read()
             {
                 if (_buff.Count == 0)
                 {
@@ -34,7 +34,7 @@ namespace Server
                 }
             }
 
-            static Input()
+            public Input()
             {
                 _thread = new Thread(exec);
                 _thread.Start();
@@ -43,16 +43,14 @@ namespace Server
             /// <summary>
             /// This function reads form console in another thread text
             /// </summary>
-            private static void exec()
+            private void exec()
             {
                 string command = "";
 
                 while (_isRun)
                 {
-                    Command tmp = new Command(": " + command, -2, -2);
-                    Output.WriteCommand(tmp);
+                    IO.WriteCommand(new Text(": " + command, -2, -2));
                     ConsoleKeyInfo c = Console.ReadKey(true);
-
                     switch (c.Key)
                     {
                         case ConsoleKey.Enter:
@@ -60,6 +58,10 @@ namespace Server
                             {
                                 _buff.Enqueue(command);
                             }
+                            Command tmp = Command.Parse(command);
+                            IO.Write(tmp.ToString());
+                            tmp.Use();
+
                             command = "";
                             break;
 

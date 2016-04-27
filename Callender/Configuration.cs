@@ -49,11 +49,11 @@ namespace Server
         {
             if (!_ini.Open(fileName))
             {
-                IO.IO.Write("Cannot open the file " + fileName);
+                IO.Write("Cannot open the file " + fileName);
 
-                IO.IO.Write("Restoring values to default");
+                IO.Write("Restoring values to default");
                 Default();
-                IO.IO.Write("Creating a new configuration file");
+                IO.Write("Creating a new configuration file");
                 _ini.Save();
 
                 return false;
@@ -87,10 +87,10 @@ namespace Server
             {
                 IP = IPAddress.Parse(_ini.ReadString("General", "IPAdress", "127.0.0.1"));
             }
-            catch(FormatException ex)
+            catch(FormatException)
             {
-                IO.IO.Write("Unknown IPAddres" + _ini.ReadString("General", "IPAdress", "127.0.0.1"));
-                IO.IO.Write("Using default 127.0.0.1");
+                IO.Write("Unknown IPAddres" + _ini.ReadString("General", "IPAdress", "127.0.0.1"));
+                IO.Write("Using default 127.0.0.1");
                 IP = IPAddress.Parse("127.0.0.1");
             }
             Port = _ini.ReadInt("General", "Port", 55005);

@@ -167,7 +167,7 @@ namespace Server.INIFiles
             {
                 return int.Parse(ReadString(section, variable, defaultValue.ToString()));
             }
-            catch (FormatException ex)
+            catch (FormatException)
             {
                 return defaultValue;
             }
@@ -186,7 +186,7 @@ namespace Server.INIFiles
             {
                 return char.Parse(ReadString(section, variable, defaultValue.ToString()));
             }
-            catch (FormatException ex)
+            catch (FormatException)
             {
                 return defaultValue;
             }
@@ -205,7 +205,7 @@ namespace Server.INIFiles
             {
                 return double.Parse(ReadString(section, variable, defaultValue.ToString()));
             }
-            catch (FormatException ex)
+            catch (FormatException)
             {
                 return defaultValue;
             }
@@ -224,7 +224,7 @@ namespace Server.INIFiles
             {
                 return float.Parse(ReadString(section, variable, defaultValue.ToString()));
             }
-            catch(FormatException ex)
+            catch(FormatException)
             {
                 return defaultValue;
             }

@@ -6,51 +6,56 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    namespace IO
+    partial class IO
     {
-        class IO
+        static Input _in = new Input();
+        static Output _out = new Output();
+
+        static IO()
         {
-            static IO()
-            {
-            }
+        }
 
-            /// <summary>
-            /// This function reads form buffer in Input class a text writed in console.
-            /// </summary>
-            /// <returns>Text writed in console or null when nothing was writed in console</returns>
-            public static string Read()
-            {
-                return Input.Read();
-            }
+        /// <summary>
+        /// This function reads form buffer in Input class a text writed in console.
+        /// </summary>
+        /// <returns>Text writed in console or null when nothing was writed in console</returns>
+        public static string Read()
+        {
+            return _in.Read();
+        }
 
-            /// <summary>
-            /// This function is simple port of Output.Write
-            /// Its just write a text in console
-            /// </summary>
-            /// <param name="toWrite"></param>
-            public static void Write(string toWrite)
-            {
-                Output.Write(toWrite);
-            }
+        /// <summary>
+        /// This function is simple port of Output.Write
+        /// Its just write a text in console
+        /// </summary>
+        /// <param name="toWrite"></param>
+        public static void Write(string toWrite)
+        {
+            _out.Write(DateTime.Now.ToString("HH:mm:ss") + "> " + toWrite);
+        }
 
-            /// <summary>
-            /// This function is simple port of Output.Write
-            /// Its just write a text in console
-            /// </summary>
-            /// <param name="write"></param>
-            public static void Write(Command write)
-            {
-                Output.Write(write);
-            }
+        /// <summary>
+        /// This function is simple port of Output.Write
+        /// Its just write a text in console
+        /// </summary>
+        /// <param name="write"></param>
+        public static void Write(Text write)
+        {
+            _out.Write(write);
+        }
 
-            /// <summary>
-            /// This function is just for simple use of Output.Clear();
-            /// And clear a console window
-            /// </summary>
-            public static void Clear()
-            {
-                Output.Clear();
-            }
+        /// <summary>
+        /// This function is just for simple use of Output.Clear();
+        /// And clear a console window
+        /// </summary>
+        public static void Clear()
+        {
+            _out.Clear();
+        }
+
+        private static void WriteCommand(Text command)
+        {
+            _out.WriteCommand(command);
         }
     }
 }
