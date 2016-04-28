@@ -23,6 +23,27 @@ namespace Server
                 {
                     Queue<Parametr> tmp = new Queue<Parametr>();
 
+                    foreach (var token in _tokens)
+                    {
+                        switch(char.ToLower(token.Type))
+                        {
+                            case 's':
+                                tmp.Enqueue(new Parametr((Object)Char.Parse(token.String), Parametr.TypeVarable.Char));
+                                break;
+                            case 'i':
+                                tmp.Enqueue(new Parametr((Object)int.Parse(token.String), Parametr.TypeVarable.Integer));
+                                break;
+                            case 'f':
+                                tmp.Enqueue(new Parametr((Object)float.Parse(token.String), Parametr.TypeVarable.Float));
+                                break;
+                            case 'd':
+                                tmp.Enqueue(new Parametr((Object)double.Parse(token.String), Parametr.TypeVarable.Double));
+                                break;
+                            default:
+                                tmp.Enqueue(new Parametr((Object)token.String, Parametr.TypeVarable.String));
+                                break;
+                        }
+                    }
 
                     return tmp;
                 }

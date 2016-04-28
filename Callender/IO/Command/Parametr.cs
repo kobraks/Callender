@@ -10,9 +10,9 @@ namespace Server
     {
         partial class Command
         {
-            struct Parametr
+            class Parametr
             {
-                enum TypeVarable
+                public enum TypeVarable
                 {
                     Integer,
                     Char,
@@ -22,14 +22,14 @@ namespace Server
                     None
                 }
                 
-                Parametr (Object obj, TypeVarable type)
+                public Parametr (Object obj, TypeVarable type)
                 {
                     Type = type;
                     Object = obj;
                 }
 
-                TypeVarable Type { get; set; }
-                Object Object { get; set; }
+                public TypeVarable Type { get; set; }
+                public Object Object { get; set; }
             }
         }
     }

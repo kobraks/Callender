@@ -26,22 +26,30 @@ namespace Server
 
                 public void Tokenize(string str)
                 {
-                    var split = str.Split(' ');
-                    foreach (var element in split)
+                    string[] split = SplitForTokenize(str);
+                    foreach(var s in split)
                     {
-                        var tmp = element;
-                        tmp = tmp.TrimStart(' ');
-                        tmp = tmp.TrimEnd(' ');
-
-
+                        Token t = Token.StringToToken(s);
+                        Tokens.Add(t);
                     }
                 }
                 #endregion
 
                 #region private
-                
-                #endregion
+                private string[] SplitForTokenize(string str)
+                { 
+                    str = str.Replace("\\'", " \\' ");
+                    str = str.Replace("\\'", " \\' ");
+                    str = str.Replace("'", " ' ");
+                    str = str.Replace("\"", " \" ");
+                    str = str.Trim();
 
+                    while(str.Contains("  "))
+                        str = str.Replace("  ", " ");
+
+                    return str.Split(' ');
+                }
+                #endregion
             }
         }
     } 

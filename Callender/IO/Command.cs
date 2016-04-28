@@ -12,11 +12,17 @@ namespace Server
         {
             #region priv_varables
             string _message;
+            Queue<Parametr> _params;
             #endregion
 
             #region private
             Command()
             {
+            }
+
+            Command(Queue<Parametr> para)
+            {
+                this._params = para;
             }
             #endregion
 
@@ -28,13 +34,12 @@ namespace Server
 
             public static Command Parse(string text)
             {
-                Command tmp = new Command();
 
                 Tokenizer tokenizer = new Tokenizer();
                 tokenizer.Tokenize(text);
 
                 Parser parser = new Parser(tokenizer.Tokens);
-                return tmp;
+                return new Command(parser.Parse());
             }
 
             public Text ToText()
