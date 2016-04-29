@@ -33,16 +33,8 @@ namespace Server
             #region properties
             public Vector2<int> Coords
             {
-                get
-                {
-                    return _coords;
-                }
-                set
-                {
-                    Vector2<int> tmp = value;
-                    if (tmp.x < -2) tmp.x = 0;
-                    if (tmp.y < -2) tmp.y = 0;
-                }
+                get;
+                set;
             }
 
             public string String { get; set; }

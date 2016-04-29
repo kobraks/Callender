@@ -35,12 +35,14 @@ namespace Server
             TcpListener listener = new TcpListener(new IPEndPoint(Config.IP, Config.Port));
             TcpClient client = default(TcpClient);
 
+            IO.Write("Listening port: " + Config.Port);
+            IO.Write("Listening IP: " + Config.IP);
             listener.Start();
             IO.Write("Server Started");
-            IO.Read();
             while (_isRun)
             {
                 client = listener.AcceptTcpClient();
+                IO.Write("Incoming connection: " + client.Client.RemoteEndPoint.ToString());
                 IO.Write("Acceptiong new client");
                 _clients.Add(new HandleClient(client));
             }

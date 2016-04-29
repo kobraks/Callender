@@ -27,7 +27,7 @@ namespace Server
                     {
                         switch(char.ToLower(token.Type))
                         {
-                            case 's':
+                            case 'c':
                                 tmp.Enqueue(new Parametr((Object)Char.Parse(token.String), Parametr.TypeVarable.Char));
                                 break;
                             case 'i':

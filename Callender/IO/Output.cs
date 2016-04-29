@@ -36,21 +36,7 @@ namespace Server
                 else
                     return (y - Console.WindowWidth) + Console.WindowWidth;
             }
-
-            /// <summary>
-            /// This Function clear a current line of console
-            /// </summary>
-            /// <param name="line">line to clear</param>
-             void ClearLine(int line)
-            {
-                //Clean a pointed line in console
-                int currentLine = Console.CursorTop;
-                Console.SetCursorPosition(0, line);
-                Console.Write(new string(' ', Console.WindowWidth));
-                Console.SetCursorPosition(0, 0);
-                Console.SetCursorPosition(0, line);
-            }
-
+            
             /// <summary>
             /// Main function where text is write on the console, its working in another thread
             /// </summary>
@@ -131,6 +117,7 @@ namespace Server
 
             public  void Write(Text write)
             {
+                if (string.IsNullOrEmpty(write.String)) return;
                 lock(_locker)
                 {
                     ClearLine(y);
@@ -161,12 +148,28 @@ namespace Server
             {
                 lock (_locker)
                 {
+                    ClearLine(Bottom());
                     Console.Clear();
                     y = 0;
                     _lastedCommand.Coords.y = Bottom();
                     _buff.Enqueue(_lastedCommand);
                 }
             }
+
+            /// <summary>
+            /// This Function clear a current line of console
+            /// </summary>
+            /// <param name="line">line to clear</param>
+            public void ClearLine(int line)
+            {
+                //Clean a pointed line in console
+                int currentLine = Console.CursorTop;
+                Console.SetCursorPosition(0, line);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, 0);
+                Console.SetCursorPosition(0, line);
+            }
+
             #endregion
         }
     }

@@ -41,6 +41,7 @@ namespace Server
         /// <param name="write"></param>
         public static void Write(Text write)
         {
+            write.String = DateTime.Now.ToString("HH:mm:ss") + "> " + write.String;
             _out.Write(write);
         }
 
@@ -51,6 +52,12 @@ namespace Server
         public static void Clear()
         {
             _out.Clear();
+        }
+
+        public static void ClearLine(int line)
+        {
+            if (line < 0) return;
+            _out.ClearLine(line);
         }
 
         private static void WriteCommand(Text command)

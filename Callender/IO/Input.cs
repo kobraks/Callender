@@ -59,7 +59,7 @@ namespace Server
                                 _buff.Enqueue(command);
                             }
                             Command tmp = Command.Parse(command);
-                            IO.Write(tmp.ToString());
+                            IO.Write(tmp.ToText());
                             tmp.Use();
 
                             command = "";

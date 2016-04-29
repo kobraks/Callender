@@ -31,6 +31,7 @@ namespace Server
             {
                 try
                 {
+                    var networkStream = Client.GetStream();
 
                 }
                 catch (Exception ex)
