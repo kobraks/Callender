@@ -20,7 +20,8 @@ namespace Server
                 ping,
                 help,
                 list,
-                ban
+                ban,
+                save
             }
             #endregion
 
@@ -50,35 +51,44 @@ namespace Server
                 if (command.Type == Parametr.TypeVarable.String)
                 {
                     string tmp = (string)(command.Object);
-                    if (tmp.ToLower() == Commands.clear.ToString().ToLower())
+                    tmp = tmp.ToLower();
+
+                    if (tmp == Commands.clear.ToString().ToLower())
                     {
                         if (_params.Count == 1)
                         {
                             _command = Commands.clear;
-                            IO.Clear();
                         }
 
                         else if (_params.Count == 2)
                         {
+                            _command = Commands.clear;
                             command = _params.ToList()[1];
 
-                            if (command.Type == Parametr.TypeVarable.Integer)
-                            {
-                                haveParams = true;
-                                IO.ClearLine((int)command.Object);
-                            }
+                            if (command.Type == Parametr.TypeVarable.Integer) haveParams = true;
                             else _message = "Parametr type: " + command.Type.ToString() + " expected Integer";
                         }
                         else _message = "Parametrs unknown current parametrs are Integer";
                     }
-                    else if (tmp.ToLower() == Commands.help.ToString().ToLower())
+                    else if (tmp == Commands.help.ToString().ToLower())
+                        _command = Commands.clear;
+                    else if (tmp == Commands.echo.ToString().ToLower())
+                        _command = Commands.echo;
+                    else if (tmp == Commands.list.ToString().ToLower())
+                        _command = Commands.list;
+                    else if (tmp == Commands.save.ToString().ToLower())
+                        _command = Commands.save;
+                    else if (tmp == Commands.stop.ToString())
                     {
+                        _command = Commands.stop;
 
+                        if (_params.Count > 1) _message = "Stop: has no parametrs";
                     }
                     else _command = Commands.unknown;
                 }
-                
+
                 if (_command == Commands.unknown) _message = "Unknown command";
+                else _message = null;
             }
             #endregion
 
@@ -109,7 +119,22 @@ namespace Server
                 {
                     case Commands.clear:
                         if (!haveParams) IO.Clear();
-                        else IO.ClearLine((int)_params.ToList()[0].Object);
+                        else IO.ClearLine((int)_params.ToList()[1].Object);
+                        break;
+
+                    case Commands.echo:
+                        if (_params.Count > 0)
+                        {
+                            var tmp = _params.ToList();
+                            for (int i = 1; i < tmp.Count; i++)
+                            {
+                                _message += tmp[i].Object.ToString() + " ";
+                            }
+                        }
+                        break;
+
+                    case Commands.list:
+
                         break;
                 }
 

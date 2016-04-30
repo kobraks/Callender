@@ -153,6 +153,7 @@ namespace Server
                     y = 0;
                     _lastedCommand.Coords.y = Bottom();
                     _buff.Enqueue(_lastedCommand);
+                    ClearLine(Bottom());
                 }
             }
 

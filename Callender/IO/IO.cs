@@ -41,6 +41,7 @@ namespace Server
         /// <param name="write"></param>
         public static void Write(Text write)
         {
+            if (String.IsNullOrEmpty(write.String)) return;
             write.String = DateTime.Now.ToString("HH:mm:ss") + "> " + write.String;
             _out.Write(write);
         }

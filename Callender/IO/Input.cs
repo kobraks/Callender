@@ -59,8 +59,9 @@ namespace Server
                                 _buff.Enqueue(command);
                             }
                             Command tmp = Command.Parse(command);
-                            IO.Write(tmp.ToText());
                             tmp.Use();
+
+                            IO.Write(tmp.ToText());
 
                             command = "";
                             break;

@@ -33,6 +33,7 @@ namespace Server
                 {
                     var networkStream = Client.GetStream();
 
+                    Packet packet = Packet.Read(networkStream);
                 }
                 catch (Exception ex)
                 {

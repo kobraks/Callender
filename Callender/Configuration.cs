@@ -23,6 +23,11 @@ namespace Server
             get;
             private set;
         }
+        public int MaxConnections
+        {
+            get;
+            private set;
+        }
 
         public string DBHost
         {
@@ -67,6 +72,7 @@ namespace Server
         {
             IP = IPAddress.Parse("127.0.0.1");
             Port = 55005;
+            MaxConnections = 30;
 
             DBHost = "localhost";
             DBName = "Callender";
@@ -75,6 +81,7 @@ namespace Server
 
             _ini.WriteString("General", "IPAdress", "127.0.0.1");
             _ini.WriteInt("General", "Port", 55005);
+            _ini.WriteInt("General", "maxusers", 30);
             _ini.WriteString("DataBase", "Host", DBHost);
             _ini.WriteString("DataBase", "Name", DBName);
             _ini.WriteString("DataBase", "User", DBUser);
@@ -94,6 +101,7 @@ namespace Server
                 IP = IPAddress.Parse("127.0.0.1");
             }
             Port = _ini.ReadInt("General", "Port", 55005);
+            MaxConnections = _ini.ReadInt("General", "maxUsers", 30);
 
             DBHost = _ini.ReadString("DataBase", "Host", "localhost");
             DBUser = _ini.ReadString("DataBase", "User", "root");

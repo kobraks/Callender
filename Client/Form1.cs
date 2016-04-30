@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Net.Sockets;
+using System.Net;
 
 namespace Client
 {
@@ -15,6 +17,12 @@ namespace Client
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            TcpClient client = new TcpClient();
+            client.Connect("127.0.0.1", 55005);
         }
     }
 }
