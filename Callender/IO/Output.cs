@@ -152,8 +152,8 @@ namespace Server
                     Console.Clear();
                     y = 0;
                     _lastedCommand.Coords.y = Bottom();
+                    _lastedCommand.String = ": ";
                     _buff.Enqueue(_lastedCommand);
-                    ClearLine(Bottom());
                 }
             }
 

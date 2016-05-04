@@ -72,6 +72,7 @@ namespace Server
                             //IO.Write(tmp.ToText());
 
                             command = "";
+                            IO.WriteCommand(new Text(": " + command, -2, -2));
                             break;
 
                         case ConsoleKey.Backspace:

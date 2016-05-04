@@ -8,8 +8,8 @@ namespace Server.Command.Exceptions
 {
     class UnknownCommandException : Exception
     {
-        public UnknownCommandException()
-        { }
+        public UnknownCommandException() : base("Unknown command")
+        {}
 
         public UnknownCommandException(string message) : base("Unknown command: " + message)
         {}
