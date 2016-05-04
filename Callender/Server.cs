@@ -27,7 +27,6 @@ namespace Server
 
         public void ParseArgv(string[] args)
         {
-
         }
 
         public void Run()

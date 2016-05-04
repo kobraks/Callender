@@ -24,7 +24,6 @@ namespace Server
             Objects.Add(obj);
         }
 
-
         private class Serializer<T>
         {
             public static void Serialize(NetworkStream stream, T obj)

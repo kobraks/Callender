@@ -12,10 +12,11 @@ namespace Server
     {
         class Input
         {
-            private static readonly Object _locker = new Object();
-            private static Queue<string> _buff = new Queue<string>();
-            private static Thread _thread;
-            private static Boolean _isRun = true;
+            static readonly Object _locker = new Object();
+            static Queue<string> _buff = new Queue<string>();
+            static Thread _thread;
+            static Boolean _isRun = true;
+            static Command.Command _command = new Command.Command();
 
             /// <summary>
             /// Reads form buffer a text wirted in console
@@ -58,10 +59,17 @@ namespace Server
                             {
                                 _buff.Enqueue(command);
                             }
-                            Command tmp = Command.Parse(command);
-                            tmp.Use();
+                            
+                            try
+                            {
+                                _command.Use(Command.Command.Parse(command));
+                            }
+                            catch(Exception ex)
+                            {
+                                IO.Write(ex.Message);
+                            }
 
-                            IO.Write(tmp.ToText());
+                            //IO.Write(tmp.ToText());
 
                             command = "";
                             break;
