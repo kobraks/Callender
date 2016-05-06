@@ -22,9 +22,14 @@ namespace Server.Command.Commands
             }
         }
 
-        public void Use()
+        public void Execute()
         {
             IO.Write(new IO.Text(message));
+        }
+
+        public void ShowHelp()
+        {
+            throw new NotImplementedException();
         }
     }
 }

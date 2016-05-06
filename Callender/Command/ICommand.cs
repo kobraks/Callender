@@ -8,7 +8,7 @@ namespace Server.Command
 {
     interface ICommand
     {
-        void Use();
-
+        void Execute();
+        void ShowHelp();
     }
 }

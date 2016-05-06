@@ -12,7 +12,22 @@ namespace Server
         class Output
         {
             #region private members
-             int y = 0;
+            int _y;
+             int y
+            {
+                get
+                {
+                    return _y;
+                }
+                set
+                {
+                    _y = value;
+                    if (_y > Console.BufferHeight - 1)
+                    {
+
+                    }
+                }
+            }
              readonly Object _locker = new Object();
              Queue<Text> _buff = new Queue<Text>();
              Thread _thread;
@@ -21,6 +36,7 @@ namespace Server
 
              public Output()
             {
+                y = 0;
                 _thread = new Thread(Exec);
                 _thread.Start();
             }
@@ -130,6 +146,25 @@ namespace Server
                 }
             }
 
+            public void WriteLines(string[] write)
+            {
+                if (write == null) return;
+                lock (_locker)
+                {
+                    foreach (var s in write)
+                    {
+                        Text tmp = new Text(s);
+                        ClearLine(y);
+                        if (tmp.Coords.y < 0) tmp.Coords.y = y;
+                        if (tmp.Coords.x < 0) tmp.Coords.x = 0;
+                        _buff.Enqueue(tmp);
+                        y++;
+                    }
+                    Monitor.Pulse(_locker);
+                    WriteCommand(_lastedCommand);
+                }
+            }
+
             /// <summary>
             /// This method is used to add to buffer some text and then it will be write in console
             /// </summary>
@@ -154,6 +189,7 @@ namespace Server
                     _lastedCommand.Coords.y = Bottom();
                     _lastedCommand.String = ": ";
                     _buff.Enqueue(_lastedCommand);
+                    Monitor.Pulse(_locker);
                 }
             }
 

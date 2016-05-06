@@ -23,13 +23,18 @@ namespace Server.Command.Commands
             }
         }
 
-        public void Use()
+        public void Execute()
         {
             if (line >= 0)
             {
                 IO.ClearLine(line);
             }
             else IO.Clear();
+        }
+
+        public void ShowHelp()
+        {
+            throw new NotImplementedException();
         }
     }
 }

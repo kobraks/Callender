@@ -27,15 +27,16 @@ namespace Server.Command
 
                 if (tmp == "echo") return new Commands.Echo(parametrs);
                 else if (tmp == "clear") return new Commands.Clear(parametrs);
-                else if (tmp == "help") return new Commands.Help();
-                else throw new UnknownCommandException(parametrs[0].Value.ToString());
+                else if (tmp == "help") return new Commands.Help(parametrs);
+                else if (tmp == "stop") return new Commands.Stop(parametrs);
+                else throw new UnknownCommandException();
             }
-            else throw new UnknownCommandException(parametrs[0].Value.ToString());
+            else throw new UnknownCommandException();
         }
 
-        public void Use(ICommand command)
+        public void Execute(ICommand command)
         {
-            if (command != null) command.Use();
+            if (command != null) command.Execute();
         }
     }
 }

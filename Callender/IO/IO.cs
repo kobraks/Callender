@@ -15,6 +15,7 @@ namespace Server
         {
         }
 
+        #region input
         /// <summary>
         /// This function reads form buffer in Input class a text writed in console.
         /// </summary>
@@ -23,7 +24,9 @@ namespace Server
         {
             return _in.Read();
         }
+        #endregion
 
+        #region output
         /// <summary>
         /// This function is simple port of Output.Write
         /// Its just write a text in console
@@ -65,5 +68,11 @@ namespace Server
         {
             _out.WriteCommand(command);
         }
+
+        public static void WriteLines(string[] lines)
+        {
+            _out.WriteLines(lines);
+        }
+        #endregion
     }
 }

@@ -59,10 +59,12 @@ namespace Server
                             {
                                 _buff.Enqueue(command);
                             }
+
+                            IO.Write(command);
                             
                             try
                             {
-                                _command.Use(Command.Command.Parse(command));
+                                _command.Execute(Command.Command.Parse(command));
                             }
                             catch(Exception ex)
                             {
