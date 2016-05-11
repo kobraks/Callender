@@ -207,6 +207,12 @@ namespace Server
                 Console.SetCursorPosition(0, line);
             }
 
+            public void Stop()
+            {
+                _isRun = false;
+                _thread.Abort();
+            }
+
             #endregion
         }
     }

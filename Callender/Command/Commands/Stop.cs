@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Server.Command.Exceptions;
+using System.Threading;
 
 namespace Server.Command.Commands
 {
@@ -10,17 +12,25 @@ namespace Server.Command.Commands
     {
         public Stop(Parametr[] parametrs)
         {
-
+            if (parametrs.Count() > 1) throw new TooMuchArgumentsException();
         }
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            Server.DisconectAll();
+            Server.Stop();
+
+            Environment.Exit(0);
         }
 
         public void ShowHelp()
         {
-            throw new NotImplementedException();
+            string[] lines =
+            {
+                "\tStoping a server"
+            };
+
+            IO.WriteLines(lines);
         }
     }
 }

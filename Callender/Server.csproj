@@ -59,12 +59,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command\Command.cs" />
+    <Compile Include="Command\Commands\Ban.cs" />
     <Compile Include="Command\Commands\Clear.cs" />
     <Compile Include="Command\Commands\Echo.cs" />
     <Compile Include="Command\Commands\Help.cs" />
+    <Compile Include="Command\Commands\List.cs" />
     <Compile Include="Command\Commands\Stop.cs" />
     <Compile Include="Command\Exceptions\BadArgumentTypeException.cs" />
-    <Compile Include="Command\Exceptions\TooMuchArgumentsExceptioncs.cs" />
+    <Compile Include="Command\Exceptions\TooMuchArgumentsException.cs" />
     <Compile Include="Command\Exceptions\UnknownCommandException.cs" />
     <Compile Include="Command\Parametr.cs" />
     <Compile Include="Command\ICommand.cs" />

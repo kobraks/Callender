@@ -20,6 +20,7 @@ namespace Server.Command.Commands
                     if (param[1].Type == Parametr.EType.Integer) line = int.Parse(param[1].Value.ToString());
                     else throw new BadArgumentTypeException(param[1].Type.ToString());
                 }
+                else throw new TooMuchArgumentsException();
             }
         }
 
@@ -34,7 +35,15 @@ namespace Server.Command.Commands
 
         public void ShowHelp()
         {
-            throw new NotImplementedException();
+            string[] lines =
+            {
+                "\tCleaning the console window",
+                "\tHELP [line]",
+                "",
+                "\tline - Clean the current line."
+            };
+
+            IO.WriteLines(lines);
         }
     }
 }

@@ -29,7 +29,12 @@ namespace Server.Command.Commands
 
         public void ShowHelp()
         {
-            throw new NotImplementedException();
+            string[] lines =
+            {
+                "\tDisplays messages"
+            };
+
+            IO.WriteLines(lines);
         }
     }
 }

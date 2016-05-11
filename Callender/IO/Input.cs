@@ -12,11 +12,11 @@ namespace Server
     {
         class Input
         {
-            static readonly Object _locker = new Object();
-            static Queue<string> _buff = new Queue<string>();
-            static Thread _thread;
-            static Boolean _isRun = true;
-            static Command.Command _command = new Command.Command();
+            readonly Object _locker = new Object();
+            Queue<string> _buff = new Queue<string>();
+            Thread _thread;
+            Boolean _isRun = true;
+            Command.Command _command = new Command.Command();
 
             /// <summary>
             /// Reads form buffer a text wirted in console
@@ -89,6 +89,12 @@ namespace Server
                             break;
                     }
                 }
+            }
+
+            public void Stop()
+            {
+                _isRun = false;
+                _thread.Abort();
             }
         }
     }

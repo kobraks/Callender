@@ -10,26 +10,35 @@ namespace Server.Command.Commands
     class Help : ICommand
     {
         ICommand _help = null;
+        Parametr[] _parametrs = null;
 
         public Help(Parametr[] parametrs)
         {
+            _parametrs = parametrs;
             if (parametrs.Count() > 1)
             {
                 if (parametrs.Count() == 2)
                 {
                     if (parametrs[1].Type == Parametr.EType.String)
                     {
-                        _help = Command.Parse(parametrs[1].Value.ToString());
+                        try
+                        {
+                            _help = Command.Parse(parametrs[1].Value.ToString());
+                        }
+                        catch (UnknownCommandException ex)
+                        {
+                            IO.Write(ex.Message + " for " + parametrs[1].Value.ToString());
+                        }
                     }
-                    else throw new UnknownCommandException(parametrs[1].Value.ToString());
+                    else throw new BadArgumentTypeException();
                 }
-                else throw new TooMuchArgumentsExceptioncs();
+                else throw new TooMuchArgumentsException();
             }
         }
 
         public void Execute()
         {
-            if (_help == null)
+            if (_help == null && _parametrs.Count() == 1)
             {
                 string[] lines =
                 {
@@ -40,18 +49,16 @@ namespace Server.Command.Commands
                     "\tHELP - Provides Help information",
                     "\tSTOP - Stoping the server",
                     "\tBAN - Banning the selected client",
-                    "\tLIST - List users are connection to the server"
+                    "\tLIST - List users are connected to the server"
                 };
-               
+
                 IO.WriteLines(lines);
             }
-            else ShowHelp();
+            else if (_parametrs.Count() == 2 && _help != null) _help.ShowHelp();
         }
 
         public void ShowHelp()
         {
-            if (_help == null) return;
-
             string[] lines =
             {
                 "\tProvides help information for commands.",

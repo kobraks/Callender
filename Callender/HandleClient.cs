@@ -41,5 +41,12 @@ namespace Server
                 }
             }
         }
+
+        public void Disconnect()
+        {
+            _isRun = false;
+            thread.Abort();
+            Client.Close();
+        }
     }
 }

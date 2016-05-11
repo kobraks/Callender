@@ -29,6 +29,8 @@ namespace Server.Command
                 else if (tmp == "clear") return new Commands.Clear(parametrs);
                 else if (tmp == "help") return new Commands.Help(parametrs);
                 else if (tmp == "stop") return new Commands.Stop(parametrs);
+                else if (tmp == "list") return new Commands.List(parametrs);
+                else if (tmp == "ban") return new Commands.Ban(parametrs);
                 else throw new UnknownCommandException();
             }
             else throw new UnknownCommandException();

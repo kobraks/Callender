@@ -73,6 +73,16 @@ namespace Server
         {
             _out.WriteLines(lines);
         }
+
+        public static void Stop()
+        {
+            Write("Stopping Input Output operations");
+            _in.Stop();
+            _out.Stop();
+
+            _in = null;
+            _out = null;
+        }
         #endregion
     }
 }

@@ -10,8 +10,10 @@ namespace Server
 {
     class Server
     {
-        List<HandleClient> _clients = new List<HandleClient>();
-        Boolean _isRun = true;
+        static public List<HandleClient> Clients = new List<HandleClient>();
+        static Boolean _isRun = true;
+        static TcpListener _listener;
+        static readonly Object _locker = new Object();
         string _configurationFile = "config.ini";
         public Configuration Config
         {
@@ -31,20 +33,48 @@ namespace Server
 
         public void Run()
         {
-            TcpListener listener = new TcpListener(new IPEndPoint(Config.IP, Config.Port));
+            _listener = new TcpListener(new IPEndPoint(Config.IP, Config.Port));
             TcpClient client = default(TcpClient);
 
             IO.Write("Listening port: " + Config.Port);
             IO.Write("Listening IP: " + Config.IP);
-            listener.Start();
+            _listener.Start();
             IO.Write("Server Started");
-            while (_isRun)
+            try
             {
-                client = listener.AcceptTcpClient();
-                IO.Write("Incoming connection: " + client.Client.RemoteEndPoint.ToString());
-                IO.Write("Acceptiong new client");
-                _clients.Add(new HandleClient(client));
+                while (_isRun)
+                {
+                    client = _listener.AcceptTcpClient();
+                    IO.Write("Incoming connection: " + client.Client.RemoteEndPoint.ToString());
+                    IO.Write("Acceptiong new client");
+                    lock(_locker)
+                    {
+                        Clients.Add(new HandleClient(client));
+                    }
+                }
             }
+            catch (Exception) { }
+        }
+
+        public static void DisconectAll()
+        {
+            lock(_locker)
+            {
+                foreach (var e in Clients)
+                {
+                    e.Disconnect();
+                }
+
+                Clients.Clear();
+            }
+        }
+
+        public static void Stop()
+        {
+            IO.Write("Stoping server");
+            _isRun = false;
+            _listener.Stop();
+            IO.Write("Server stoped");
         }
     }
 }
