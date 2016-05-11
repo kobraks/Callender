@@ -8,7 +8,7 @@ namespace Server.Command.Commands
 {
     class Ban: ICommand
     {
-        Ban(Parametr[] parametrs)
+        public Ban(Parametr[] parametrs)
         {
             throw new NotImplementedException();
         }
