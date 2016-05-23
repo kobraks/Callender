@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Core.INIFiles;
 using System.IO;
 
-namespace Server.INIFiles
+namespace Callender_Core
 {
     /// <summary>
     /// Class used to read and write a ini files.
     /// </summary>
-    class INIFiles
+    public class INIFile
     {
+
         int _precision = 3;
 
         /// <summary>
         /// Sections
         /// </summary>
-        public List<Section> Sections
+        List<Section> Sections
         {
             get;
-            private set;
+            set;
         }
 
         /// <summary>
@@ -50,7 +49,7 @@ namespace Server.INIFiles
             }
         }
 
-        public INIFiles()
+        public INIFile()
         {
             Sections = new List<Section>();
         }
@@ -70,7 +69,7 @@ namespace Server.INIFiles
 
             string line;
             Section section = null;
-            while((line = reader.ReadLine()) != null)
+            while ((line = reader.ReadLine()) != null)
             {
                 line = line.TrimEnd(' ');
                 line = line.TrimStart(' ');
@@ -102,11 +101,11 @@ namespace Server.INIFiles
         /// </summary>
         void DeleteDuplicates()
         {
-            for(int i =0; i < Sections.Count; i++)
+            for (int i = 0; i < Sections.Count; i++)
             {
-                for (int b =0; b< Sections.Count; b++)
+                for (int b = 0; b < Sections.Count; b++)
                 {
-                    if (b != i && Sections[b].Name.ToUpper() == Sections[i].Name.ToUpper() && b>i)
+                    if (b != i && Sections[b].Name.ToUpper() == Sections[i].Name.ToUpper() && b > i)
                     {
                         Sections.RemoveAt(i);
                     }
@@ -224,7 +223,7 @@ namespace Server.INIFiles
             {
                 return float.Parse(ReadString(section, variable, defaultValue.ToString()));
             }
-            catch(FormatException)
+            catch (FormatException)
             {
                 return defaultValue;
             }
@@ -324,11 +323,11 @@ namespace Server.INIFiles
         {
             StreamWriter writer = new StreamWriter(fileName);
 
-            foreach(Section section in Sections)
+            foreach (Section section in Sections)
             {
                 writer.WriteLine('[' + section.Name + ']');
 
-                foreach(Variable var in section.Variables)
+                foreach (Variable var in section.Variables)
                 {
                     writer.WriteLine(var.Name + " = " + var.Value);
                 }

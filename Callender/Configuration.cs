@@ -9,7 +9,7 @@ namespace Server
 {
     class Configuration
     {
-        INIFiles.INIFiles _ini = new INIFiles.INIFiles();
+        Core.INIFile _ini = new Core.INIFile();
         public Configuration()
         {}
 
