@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Threading;
+using Core;
+using System.Diagnostics;
 
 namespace Server
 {
@@ -31,13 +33,20 @@ namespace Server
             {
                 try
                 {
-                    var networkStream = Client.GetStream();
+                    Packet packet = new Packet();
+                    packet = packet.Take(Client);
 
-                    Packet packet = Packet.Read(networkStream);
+                    var obj = packet.List;
+
+                    foreach(var o in obj)
+                    {
+                        IO.Write(o);
+                    }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    IO.Write(ex.ToString());
+                    IO.Write("Client disconnected");
+                    Disconnect();
                 }
             }
         }
@@ -45,8 +54,8 @@ namespace Server
         public void Disconnect()
         {
             _isRun = false;
-            thread.Abort();
             Client.Close();
+            thread.Abort();
         }
     }
 }

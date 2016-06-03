@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Net.Sockets;
-using System.Net;
 
 namespace Client
 {
     public partial class Form1 : Form
     {
+        Connection connection = new Connection();
+
         public Form1()
         {
             InitializeComponent();
@@ -21,8 +21,16 @@ namespace Client
 
         private void button1_Click(object sender, EventArgs e)
         {
-            TcpClient client = new TcpClient();
-            client.Connect("127.0.0.1", 55005);
+            connection.Connect("127.0.0.1", 55005);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string[] message = new String[2];
+            message[0] = "aala";
+            message[1] = "begat";
+
+            connection.Send(message);
         }
     }
 }

@@ -1,62 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections.Generic;
 
 namespace Core
 {
     [Serializable]
-    class Packet
+    public class Packet
     {
-        Packet()
-        {
-            Objects = new List<object>();
-        }
+        string[] command = null;
 
-        public List<Object> Objects
+        public string[] List
         {
-            get;
-            private set;
-        }
-
-        public void Add(Object obj)
-        {
-            Objects.Add(obj);
-        }
-
-        private class Serializer<T>
-        {
-            public static void Serialize(NetworkStream stream, T obj)
+            get
             {
-                if (obj != null)
-                {
-                    var bf = new BinaryFormatter();
-                    bf.Serialize(stream, obj);
-                }
-            }
-
-            public static T Deserialize(NetworkStream stream)
-            {
-                try
-                {
-                    var bf = new BinaryFormatter();
-                    return (T)bf.Deserialize(stream);
-                }
-                catch(Exception)
-                {
-                    return default(T);
-                }
+                return command;
             }
         }
 
-        public static Packet Read(NetworkStream stream)
+        public Packet()
         {
-            return Serializer<Packet>.Deserialize(stream);
+
         }
 
-        public static void Send(NetworkStream stream, Packet pack)
+        public void Add(string what)
         {
-            Serializer<Packet>.Serialize(stream, pack);
+            List<string> tmp;
+            if (command == null) tmp = new List<string>();
+            else tmp  = new List<string>(command);
+            tmp.Add(what);
+            command = tmp.ToArray();
+        }
+
+        public void Send(TcpClient client)
+        {
+            Serializer<Packet>.Serialize(client.GetStream(), this);
+        }
+
+        public Packet Take(TcpClient client)
+        {
+            return Serializer<Packet>.Deserialize(client.GetStream());
         }
     }
 }

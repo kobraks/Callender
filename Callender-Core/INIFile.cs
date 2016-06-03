@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Core.INIFiles;
 using System.IO;
 
-namespace Callender_Core
+namespace Core
 {
     /// <summary>
     /// Class used to read and write a ini files.
